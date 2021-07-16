@@ -1,0 +1,77 @@
+<?php
+    /**
+    * This file run basic DataTable in whatever page
+    * Default find 'table' html element, but your can set params
+    * 
+    * @usage @include('admin._components._datatables')
+    * 
+    * tableName: selector for table
+    * noTools:  if true dont create buttons for hide columns and exports
+    * noSearch: if true dont enable search
+    * noPaging: if true dont enable pagination
+    * 
+    **/ 
+?>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.0/css/colReorder.bootstrap.min.css">
+
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.0/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+
+<style>
+    div.dt-button-background {
+        position: unset !important;
+        z-index: 0;
+    }
+    .dt-button-collection {
+        margin-top: 5.5px !important;
+        margin-bottom: 5px !important;
+        position: fixed !important;
+    }
+    .dt-button-collection button {
+        background-color: white !important;
+        border-color: gray;
+    }
+    .dt-button-collection button.active {
+        background-color: #bbcdb0 !important;
+        border-color: #bbcdb0;
+        color: white
+    }
+</style>
+
+<script>
+    
+    table = $( "{{ $tableName ?? 'table'}}" ).DataTable( {
+        stateSave: true,
+        dom: 'Bfrtip',
+        colReorder: true,
+        
+        @if(@$noSearch)
+        
+        searching: false,
+        
+        @endif
+        
+        buttons: [
+        @if(!@$noTools)
+        { extend: 'copyHtml5', className: 'btn btn-primary btn-outline btn-sm', text:'<i class="fa fa-copy"></i>'  },
+        { extend: 'csv', className: 'btn btn-primary btn-outline btn-sm', text:'<i class="fa fa-file-excel-o"></i>' },
+        { extend: 'colvis', className: 'btn btn-outline btn-default', text: '<i class="fa fa-columns"></i>' },
+        @endif
+        
+        @if(!@$noPaging)
+        { extend: 'pageLength', className: 'btn btn-outline btn-default', text: '<i class="fa fa-table"></i>' }
+        @endif
+        
+        ]
+        
+        
+    })
+    
+</script>
